@@ -10,6 +10,7 @@ export default AuthenticatedRoute.extend(styleBody, {
     classNames: ['ghost-signout'],
 
     afterModel(/*model, transition*/) {
+        console.log("abc")
         this.notifications.clearAll();
         this.session.invalidate();
     }

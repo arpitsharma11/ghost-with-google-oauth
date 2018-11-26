@@ -1,12 +1,24 @@
 import $ from 'jquery';
-import Controller, {inject as controller} from '@ember/controller';
+import Controller, {
+    inject as controller
+} from '@ember/controller';
 import RSVP from 'rsvp';
 import ValidationEngine from 'ghost-admin/mixins/validation-engine';
-import {alias} from '@ember/object/computed';
-import {isArray as isEmberArray} from '@ember/array';
-import {isVersionMismatchError} from 'ghost-admin/services/ajax';
-import {inject as service} from '@ember/service';
-import {task} from 'ember-concurrency';
+import {
+    alias
+} from '@ember/object/computed';
+import {
+    isArray as isEmberArray
+} from '@ember/array';
+import {
+    isVersionMismatchError
+} from 'ghost-admin/services/ajax';
+import {
+    inject as service
+} from '@ember/service';
+import {
+    task
+} from 'ember-concurrency';
 
 export default Controller.extend(ValidationEngine, {
     application: controller(),
@@ -36,7 +48,7 @@ export default Controller.extend(ValidationEngine, {
         authenticate() {
             this.get('validateAndAuthenticate').perform();
         },
-        newAuth(){
+        newAuth() {
             //console.log("asd")
             //this.get('session').authenticate('authenticator:torii', 'google-oauth2')
             this.get('authenticateG').perform();
@@ -95,7 +107,10 @@ export default Controller.extend(ValidationEngine, {
                 }
             } else {
                 // Connection errors don't return proper status message, only req.body
-                this.get('notifications').showAlert('There was a problem on the server.', {type: 'error', key: 'session.authenticate.failed'});
+                this.get('notifications').showAlert('There was a problem on the server.', {
+                    type: 'error',
+                    key: 'session.authenticate.failed'
+                });
             }
         }
     }).drop(),
@@ -113,7 +128,9 @@ export default Controller.extend(ValidationEngine, {
         this.get('hasValidated').addObjects(this.authProperties);
 
         try {
-            yield this.validate({property: 'signin'});
+            yield this.validate({
+                property: 'signin'
+            });
             return yield this.get('authenticate')
                 .perform(authStrategy, [signin.get('identification'), signin.get('password')]);
         } catch (error) {
@@ -131,11 +148,21 @@ export default Controller.extend(ValidationEngine, {
         this.get('hasValidated').addObject('identification');
 
         try {
-            yield this.validate({property: 'forgotPassword'});
-            yield this.get('ajax').post(forgottenUrl, {data: {passwordreset: [{email}]}});
+            yield this.validate({
+                property: 'forgotPassword'
+            });
+            yield this.get('ajax').post(forgottenUrl, {
+                data: {
+                    passwordreset: [{
+                        email
+                    }]
+                }
+            });
             notifications.showAlert(
-                'Please check your email for instructions.',
-                {type: 'info', key: 'forgot-password.send.success'}
+                'Please check your email for instructions.', {
+                    type: 'info',
+                    key: 'forgot-password.send.success'
+                }
             );
             return true;
         } catch (error) {
@@ -149,7 +176,9 @@ export default Controller.extend(ValidationEngine, {
             }
 
             if (error && error.payload && error.payload.errors && isEmberArray(error.payload.errors)) {
-                let [{message}] = error.payload.errors;
+                let [{
+                    message
+                }] = error.payload.errors;
 
                 this.set('flowErrors', message);
 
@@ -157,7 +186,10 @@ export default Controller.extend(ValidationEngine, {
                     this.get('signin.errors').add('identification', '');
                 }
             } else {
-                notifications.showAPIError(error, {defaultErrorText: 'There was a problem with the reset, please try again.', key: 'forgot-password.send'});
+                notifications.showAPIError(error, {
+                    defaultErrorText: 'There was a problem with the reset, please try again.',
+                    key: 'forgot-password.send'
+                });
             }
         }
     })

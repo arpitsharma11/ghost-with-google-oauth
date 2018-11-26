@@ -38,6 +38,7 @@ module.exports = function (environment) {
         },
 
         torii: {
+            allowUnsafeRedirect: true,
             sessionServiceName: 'session',
             providers: {
               'google-oauth2': {

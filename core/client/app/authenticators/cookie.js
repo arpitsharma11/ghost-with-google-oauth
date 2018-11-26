@@ -1,7 +1,11 @@
 import Authenticator from 'ember-simple-auth/authenticators/base';
 import RSVP from 'rsvp';
-import {computed} from '@ember/object';
-import {inject as service} from '@ember/service';
+import {
+    computed
+} from '@ember/object';
+import {
+    inject as service
+} from '@ember/service';
 
 export default Authenticator.extend({
     ajax: service(),
@@ -16,7 +20,10 @@ export default Authenticator.extend({
     },
 
     authenticate(identification, password) {
-        const data = {username: identification, password};
+        const data = {
+            username: identification,
+            password
+        };
         const options = {
             data,
             contentType: 'application/json;charset=utf-8',
