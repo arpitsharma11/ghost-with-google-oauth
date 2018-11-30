@@ -15,10 +15,6 @@ module.exports = {
         return require('./session');
     },
 
-    get googleSession() {
-        return require('./googleSession');
-    },
-
     get pages() {
         return shared.pipeline(require('./pages'), localUtils);
     },

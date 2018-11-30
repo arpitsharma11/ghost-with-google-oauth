@@ -51,7 +51,7 @@ export default Controller.extend({
             this.set('profileImage', image);
         },
 
-        googleSignup(a) {
+        googleSignup() {
             this.get('fetchInfoGoogle').perform();
         }
     },
